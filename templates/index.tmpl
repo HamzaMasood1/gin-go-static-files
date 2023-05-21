@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
     <section class="container">
         <div class="row">
             {{range .recipes}}
@@ -26,6 +27,7 @@
                             <li>{{$step}}</li>
                             {{end}}
                         </ul>
+                        <a href="/recipes/{{ .ID }}" class="btn btn-primary btn-sm">See recipe</a>
                     </div>
                 </div>
             </div>

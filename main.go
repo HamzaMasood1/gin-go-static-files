@@ -9,6 +9,7 @@ import (
 )
 
 type Recipe struct {
+	ID          string       `json:"id"`
 	Name        string       `json:"name"`
 	Ingredients []Ingredient `json:"ingredients"`
 	Steps       []string     `json:"steps"`
@@ -34,10 +35,23 @@ func IndexHandler(c *gin.Context) {
 	})
 }
 
+func RecipeHandler(c *gin.Context) {
+	for _, recipe := range recipes {
+		if recipe.ID == c.Param("id") {
+			c.HTML(http.StatusOK, "recipe.tmpl", gin.H{
+				"recipe": recipe,
+			})
+			return
+		}
+	}
+	c.File("404.html")
+}
+
 func main() {
 	router := gin.Default()
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", IndexHandler)
+	router.GET("/recipes/:id", RecipeHandler)
 	router.Run("localhost:8080")
 }
